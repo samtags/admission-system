@@ -1,35 +1,14 @@
-from flask import Flask
-
+from flask import Flask, render_template
+import os
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def home():
-    return 'Home Page Route'
+    return render_template('index.html')
 
 
-@app.route('/about')
-def about():
-    return 'About Page Route'
-
-
-@app.route('/portfolio')
-def portfolio():
-    return 'Portfolio Page Route'
-
-
-@app.route('/contact')
-def contact():
-    return 'Contact Page Route'
-
-
-@app.route('/api')
-def api():
-    with open('data.json', mode='r') as my_file:
-        text = my_file.read()
-        return text
-    
-# comment
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=True, host='0.0.0.0', port=port)
