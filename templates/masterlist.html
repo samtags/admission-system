@@ -8,7 +8,7 @@
 <body>
     {% block content %}
     <h1>Masterlist</h1>
-    <div class="search">
+    <div class="searchmasterlist">
         <form method="POST" action="/">
             <input type="text" name="search" placeholder="Search Name">
             <select name="filter">
@@ -20,12 +20,10 @@
             <button type="submit">Search</button>
         </form>
     </div>
-    <div class="studentlist">
-        {% for name in registration %}
+    <div class="studentfulllist">
         <ol>
             <li><h3>{{ name }}</h3><p>{{ subject }}</p><p>{{ status }}</p></li>
         </ol>
-        {% endfor %}
     </div>
   
 
