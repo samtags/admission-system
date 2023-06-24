@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import os
 import sqlite3
 
-db_path = 'records'
+db_path = 'records.db'
 
 app = Flask(__name__)
 
