@@ -27,31 +27,35 @@ def adref():
 @app.route('/adstaffscreen', methods=['GET', 'POST'])
 def adstaff():
     # Get the search and filter criteria from the form
-    search_query = request.form.get('search_query', '')
-    filter_criteria = request.form.get('filter_criteria', '')
-
-    # Connect to the SQLite database
+    searchdbpending = request.form.get('searchdbpending', '')
+    filterbycourse = request.form.get('filterbycourse', '')
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-
     # Build the SQL query based on the search and filter criteria
     query = "SELECT * FROM registrations WHERE subject=?"
-    params = ('%' + search_query + '%',)
-
-    if filter_criteria:
+    params = ('%' + searchdbpending + '%',)
+    if filterbycourse:
         query += " AND another_column = ?"
-        params += (filter_criteria,)
-
+        params += (filterbycourse,)
     # Execute the query and fetch the results
     cursor.execute(query, params)
     results = cursor.fetchall()
-
     # Close the database connection
     cursor.close()
     conn.close()
-
     # Pass the results to the HTML template
     return render_template('adstaffscreen.html', results=results)
+
+@app.route('/masterlist', methods=['GET', 'POST'])
+def master():
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    query = "SELECT * FROM registrations"
+    cursor.execute(query)
+    results = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template('masterlist.html', results=results)
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))

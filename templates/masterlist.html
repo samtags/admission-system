@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admission</title>
+</head>
+<body>
+    {% block content %}
+    <h1>Masterlist</h1>
+    <div class="search">
+        <form method="POST" action="/">
+            <input type="text" name="search" placeholder="Search Name">
+            <select name="filter">
+                <option value="">All</option>
+                <option value="LIS51">LIS51</option>
+                <option value="LIS55">LIS55</option>
+                <option value="LIS161">LIS161</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div class="studentlist">
+        {% for name in registration %}
+        <ol>
+            <li><h3>{{ name }}</h3><p>{{ subject }}</p><p>{{ status }}</p></li>
+        </ol>
+        {% endfor %}
+    </div>
+  
+
+    {% endblock %}
+</body>
+</html>
