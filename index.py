@@ -1,28 +1,50 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import os
 import sqlite3
+from data import register_student
 
 db_path = 'records.db'
 
 app = Flask(__name__)
 
 # Connect to a database
+
+
 def connect_db(path):
     conn = sqlite3.connect(path)
     conn.row_factory = sqlite3.Row
     return (conn, conn.cursor())
 
+
 @app.route('/')
 def home():
     return render_template('index.html')
+
+
+@app.route('/register', methods=['post'])
+def handle_register():
+
+    admission = register_student(request.json)
+    return jsonify({
+        "id": admission[0],
+        "name": admission[1],
+        "subject": admission[2],
+        "email": admission[3],
+        "phone": admission[4],
+        "tel": admission[5],
+        "dob": admission[6]
+    })
+
 
 @app.route('/register')
 def register():
     return render_template('register.html')
 
+
 @app.route('/admissionreference')
 def adref():
     return render_template('adrefscreen.html')
+
 
 @app.route('/adstaffscreen', methods=['GET', 'POST'])
 def adstaff():
@@ -46,6 +68,7 @@ def adstaff():
     # Pass the results to the HTML template
     return render_template('adstaffscreen.html', results=results)
 
+
 @app.route('/masterlist', methods=['GET', 'POST'])
 def master():
     # Get the search and filter criteria from the form
@@ -67,6 +90,7 @@ def master():
     conn.close()
     # Pass the results to the HTML template
     return render_template('masterlist.html', results=results)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
