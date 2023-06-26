@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import os
 import sqlite3
-from data import register_student
+
 
 db_path = 'records.db'
 
