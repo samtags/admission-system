@@ -48,13 +48,24 @@ def adstaff():
 
 @app.route('/masterlist', methods=['GET', 'POST'])
 def master():
+    # Get the search and filter criteria from the form
+    mstrsearchdbpending = request.form.get('mstrsearchdbpending', '')
+    mstrfilterbycourse = request.form.get('mstrfilterbycourse', '')
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    query = "SELECT * FROM registrations"
-    cursor.execute(query)
+    # Build the SQL query based on the search and filter criteria
+    query = "SELECT * FROM registrations WHERE subject=?"
+    params = ('%' + mstrsearchdbpending + '%',)
+    if mstrfilterbycourse:
+        query += " AND another_column = ?"
+        params += (mstrfilterbycourse,)
+    # Execute the query and fetch the results
+    cursor.execute(query, params)
     results = cursor.fetchall()
+    # Close the database connection
     cursor.close()
     conn.close()
+    # Pass the results to the HTML template
     return render_template('masterlist.html', results=results)
 
 if __name__ == "__main__":
