@@ -23,6 +23,7 @@ def home():
 @app.route('/register', methods=['post'])
 def handle_register():
     data = register_student(dict(request.form))
+    broadcast_pending_admissions()
     return redirect(url_for("admission_reference", id=data['id']))
 
 
