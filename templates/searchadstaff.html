@@ -11,10 +11,30 @@
 
     <button type="submit">Search</button>
   </form>
+
   <div id="content" class="p-7 gap-y-8 flex flex-col"></div>
 </body>
 
 <script>
+  function handleUpdateStatus(id, status) {
+    axios
+      .patch(`/admission/update/${id}`, {
+        status,
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function handleAccept(id) {
+    handleUpdateStatus(id, "accepted");
+  }
+
+  function handleReject(id) {
+    handleUpdateStatus(id, "rejected");
+  }
+
   const admissions = JSON.parse('{{ admissions|tojson|safe }}');
   const content = document.getElementById("content");
 
@@ -35,8 +55,8 @@
                 </div>
             </div>
             <div class="flex gap-2 mt-4">
-                <button class="bg-green-500 text-white px-4 py-1 rounded-lg">Accept</button>
-                <button class="bg-red-500 text-white px-4 py-1 rounded-lg">Reject</button>
+                <button onclick="handleAccept(${admission.id})" class="bg-green-500 text-white px-4 py-1 rounded-lg">Accept</button>
+                <button onclick="handleReject(${admission.id})" class="bg-red-500 text-white px-4 py-1 rounded-lg">Reject</button>
             </div>
         </div>
     `;
