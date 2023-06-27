@@ -67,6 +67,14 @@ def master():
     return render_template('masterlist.html', subjects=subjects, enrolled=rows_dict)
 
 
+@app.route('/admission/update/<int:id>', methods=['PATCH'])
+def update(id):
+    data = request.get_json()
+    update_admission_status(id, data['status'])
+    updated = get_admission(id)
+    return jsonify(dict(updated))
+
+
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, host='0.0.0.0', port=port)
