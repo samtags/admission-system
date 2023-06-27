@@ -14,30 +14,61 @@
   <div id="content" class="p-7 gap-y-8 flex flex-col"></div>
 </body>
 
+<script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js"></script>
+
 <script>
-  const admissions = JSON.parse('{{ enrolled|tojson|safe }}');
-  const content = document.getElementById("content");
+  function handleRemove(id) {
+    axios
+      .delete(`/registrations/${id}`)
+      .then((data) => {
+        document.getElementById("admission-" + id).disabled = true;
+        swal({
+          title: "Success",
+          text: "Student record deleted!",
+          type: "success",
+          showCancelButton: false,
+          confirmButtonColor: "rgb(99, 102, 241)",
+          confirmButtonText: "Close",
+        });
+      })
+      .finally(() => {
+        document.getElementById("admission-" + id).disabled = false;
+      });
+  }
 
-  let listContent = "";
+  const admissions = JSON.parse(`{{ admissions|tojson|safe }}`);
+  function renderContent(data) {
+    const content = document.getElementById("content");
+    let listContent = "";
+    data.reverse().forEach((admission) => {
+      listContent += `
+          <div class="bg-gray-50 px-12 py-8 rounded-2xl">
+              <div class="grid grid-cols-2 gap-4">
+                  <div class="col-span-1">
+                      <div>Name: ${admission.name}</div>
+                      <div>Subject: ${admission.subject}</div>
+                  </div>
+                  <div class="col-span-1">
+                      <div>Contact Number: ${admission.phone}</div>
+                      <div>Email: ${admission.email}</div>
+                      <div>Date of birth: ${admission.dob}</div>
+                  </div>
+              </div>
+              <button id="admission-${admission.id}" onclick="handleRemove(${admission.id})" class="bg-red-400 hover:bg-red-500 text-white px-4 py-1 rounded-lg disabled:cursor-not-allowed disabled:bg-red-200">Delete Record</button>
+          </div>
+      `;
+    });
+    content.innerHTML = listContent;
+  }
 
-  admissions.forEach((admission) => {
-    listContent += `
-        <div class="bg-gray-50 px-12 py-8 rounded-2xl">
-            <div class="grid grid-cols-2 gap-4">
-                <div class="col-span-1">
-                    <div>Name: ${admission.name}</div>
-                    <div>Subject: ${admission.subject}</div>
-                </div>
-                <div class="col-span-1">
-                    <div>Contact Number: ${admission.phone}</div>
-                    <div>Email: ${admission.email}</div>
-                    <div>Date of birth: ${admission.dob}</div>
-                </div>
-            </div>
-        </div>
-    `;
+  renderContent(admissions || []);
+
+  const socket = io.connect();
+
+  socket.on("registrations", function (payload) {
+    payload = JSON.parse(JSON.stringify(payload));
+    renderContent(payload.data);
   });
-
-  content.innerHTML = listContent;
 </script>
 {% endblock %}

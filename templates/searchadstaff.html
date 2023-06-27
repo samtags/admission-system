@@ -19,7 +19,7 @@
 <script>
   function handleUpdateStatus(id, status) {
     axios
-      .patch(`/admission/update/${id}`, {
+      .patch(`/registrations/${id}`, {
         status,
       })
       .then((data) => {
