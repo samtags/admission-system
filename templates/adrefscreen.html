@@ -1,12 +1,45 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <h1>Student's Admission</h1>
-<h2>Status: {{ admissions.status }}</h2>
-    <p>Waiting to be admitted in {{ admissions.subject }} batch {{ admissions.batch }}. Keep this code as your admission reference. We will notify you once you are admitted.</p>
+
+<!-- STATUSES: PENDING, APPROVED, REJECTED, ENROLLED -->
+
+{% if admissions.status == "pending" %}
+
+<p>
+  Waiting to be admitted in {{ admissions.subject }} batch {{ admissions.batch
+  }}. Keep this code as your admission reference. We will notify you once you
+  are admitted.
+</p>
+
+{% endif %} {% if admissions.status == "approved" %}
+
+<p>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+  incididunt ut labore et dolore magna aliqua
+</p>
+
+{% endif %} {% if admissions.status == "rejected" %}
+<p>
+  Bacon ipsum dolor amet meatball strip steak kielbasa salami chicken jowl
+  biltong, tri-tip jerky tongue ball tip beef. Pork corned beef capicola
+  hamburger porchetta flank bacon ribeye. Beef ribs chuck corned beef buffalo
+  meatball. Chicken strip steak meatloaf cow kielbasa sausage pancetta pork chop
+  filet mignon pork loin. Andouille doner hamburger chicken tongue jerky rump
+  short loin shoulder porchetta short ribs jowl picanha. Flank filet mignon
+  sirloin, fatback bresaola tenderloin pork chicken picanha corned beef buffalo
+  meatball capicola andouille chuck.
+</p>
+
+{% endif %} {% if admissions.status == "enrolled" %}
+<p>
+  Congratulations Flank filet mignon sirloin, fatback bresaola tenderloin pork
+  chicken picanha corned beef buffalo meatball capicola andouille chuck.
+</p>
+
+{% endif %}
+
 <!-- <p>Congratulations! You have successfully enrolled for the [COURSE] batch [BATCH]. Proceed to window 3 to verify your enrollment</p> -->
 <h2>View Admission Details</h2>
-    <p>{{ admissions.name }}</p>
-    <p>{{ admissions.subject }}</p>
+<p>{{ admissions.name }}</p>
+<p>{{ admissions.subject }}</p>
 {% endblock %}
-
