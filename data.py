@@ -1,5 +1,5 @@
 import sqlite3
-from pprint import pprint
+from index import socketio
 
 db_path = 'records.db'
 

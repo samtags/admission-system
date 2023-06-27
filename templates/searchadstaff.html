@@ -70,8 +70,6 @@
       `;
     });
     content.innerHTML = listContent;
-
-    console.log("rendered");
   }
 
   renderContent(admissions || []);
@@ -81,6 +79,7 @@
   const socket = io.connect();
 
   socket.on("registrations", function (payload) {
+    console.log("response received");
     payload = JSON.parse(JSON.stringify(payload));
     renderContent(payload.data);
   });

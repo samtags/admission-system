@@ -7,23 +7,27 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 
 
-def broadcast_pending_admissions():
-    pending_admissions = get_admissions_by_status("pending")
-    rows_dict = [dict(row) for row in pending_admissions]
+def broadcast(table: str, id=None):
+    if (table == "registrations"):
+        pending_admissions = get_admissions_by_status("pending")
+        rows_dict = [dict(row) for row in pending_admissions]
 
-    socketio.emit('registrations', {'data': rows_dict})
+        socketio.emit('registrations', {'data': rows_dict})
+
+        if (id):
+            updated = get_admission(id)
+            socketio.emit(f"registrations/{id}", {'data': dict(updated)})
 
 
 @app.route('/')
 def home():
-    broadcast_pending_admissions()
     return render_template('index.html')
 
 
 @app.route('/register', methods=['post'])
 def handle_register():
     data = register_student(dict(request.form))
-    broadcast_pending_admissions()
+    broadcast("registrations")
     return redirect(url_for("admission_reference", id=data['id']))
 
 
@@ -35,7 +39,7 @@ def register():
 @app.route('/admission-reference/<int:id>')
 def admission_reference(id):
     data = get_admission(id)
-    return render_template('adrefscreen.html', admissions=data)
+    return render_template('adrefscreen.html', admissions=data, id=id)
 
 
 @app.route('/adrefscreen')
@@ -81,7 +85,7 @@ def master():
 def update(id):
     data = request.get_json()
     update_admission_status(id, data['status'])
-    broadcast_pending_admissions()
+    broadcast("registrations", id)
     updated = get_admission(id)
     return jsonify(dict(updated))
 
@@ -105,7 +109,7 @@ def accounting():
 @app.route('/payment-received/<int:id>', methods=['POST'])
 def payment_received(id):
     update_admission_status(id, 'enrolled')
-    broadcast_pending_admissions()
+    broadcast("registrations", id)
     return redirect(url_for("accounting", success=True))
 
 
