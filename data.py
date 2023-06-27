@@ -30,12 +30,13 @@ def register_student(payload):
     conn.close()
     return row
 
-def readadrefdata(studid):
+
+def get_admissions():
     conn, cur = connect_db(db_path)
-    query = 'SELECT * FROM registrations WHERE id=?'
-    results = cur.execute(query, (studid,)).fetchall()
+    cur.execute('SELECT name, subject, status FROM registrations')
+    admissions = cur.fetchall()
     conn.close()
-    return results
+    return admissions
 
 def search_by_name_and_subject(name, subject):
     conn, cur = connect_db(db_path)

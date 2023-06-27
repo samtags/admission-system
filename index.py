@@ -27,10 +27,10 @@ def handle_register():
 def register():
     return render_template('register.html')
 
-@app.route('/adref')
-def adref(studid):
-    adref = readadrefdata(studid)
-    return render_template('adrefscreen.html', adref=adref)
+@app.route('/adrefscreen')
+def display_admissions():
+    admissions = get_admissions()
+    return render_template('adrefscreen.html', admissions=admissions)
 
 subjects = ["LIS51", "LIS55", "LIS161"]
 

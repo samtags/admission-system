@@ -2,11 +2,11 @@
 
 {% block content %}
 <h1>Student's Admission</h1>
-<h2>Status: {{ adref.status }}</h2>
-    <p>Waiting to be admitted in {{ adref.subject }} batch {{ adref.batch }}. Keep this code as your admission reference. We will notify you once you are admitted.</p>
+<h2>Status: {{ admissions.status }}</h2>
+    <p>Waiting to be admitted in {{ admissions.subject }} batch {{ admissions.batch }}. Keep this code as your admission reference. We will notify you once you are admitted.</p>
 <!-- <p>Congratulations! You have successfully enrolled for the [COURSE] batch [BATCH]. Proceed to window 3 to verify your enrollment</p> -->
 <h2>View Admission Details</h2>
-    <p>{{ adref.name }}</p>
-    <p>{{ adref.subject }}</p>
+    <p>{{ admissions.name }}</p>
+    <p>{{ admissions.subject }}</p>
 {% endblock %}
 
