@@ -1,19 +1,12 @@
 {% extends "base.html" %}
 
-<!DOCTYPE html>
-<html>
-<head>
-<title>Student's Admission</title>
-</head>
-<body>
-    {% block content %}
-    <h1>Student's Admission</h1>
-    <h2>Status: Pending...</h2>
-    <p>Waiting to be admitted in {{ subject }} batch {{ batch }}. Keep this code as your admission reference. We will notify you once you are admitted.</p>
-    <!-- <p>Congratulations! You have successfully enrolled for the [COURSE] batch [BATCH]. Proceed to window 3 to verify your enrollment</p> -->
-    <h2>View Admission Details</h2>
-    <p>{{ name }}</p>
-    <p>{{ subject }}</p>
-    {% endblock %}
-</body>
-</html>
+{% block content %}
+<h1>Student's Admission</h1>
+<h2>Status: {{ adref.status }}</h2>
+    <p>Waiting to be admitted in {{ adref.subject }} batch {{ adref.batch }}. Keep this code as your admission reference. We will notify you once you are admitted.</p>
+<!-- <p>Congratulations! You have successfully enrolled for the [COURSE] batch [BATCH]. Proceed to window 3 to verify your enrollment</p> -->
+<h2>View Admission Details</h2>
+    <p>{{ adref.name }}</p>
+    <p>{{ adref.subject }}</p>
+{% endblock %}
+

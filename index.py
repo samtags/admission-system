@@ -1,21 +1,8 @@
 from flask import Flask, render_template, request
 import os
-import sqlite3
-from data import register_student
-
-
-db_path = 'records.db'
+from data import *
 
 app = Flask(__name__)
-
-# Connect to a database
-
-
-def connect_db(path):
-    conn = sqlite3.connect(path)
-    conn.row_factory = sqlite3.Row
-    return (conn, conn.cursor())
-
 
 @app.route('/')
 def home():
@@ -36,62 +23,34 @@ def handle_register():
         "dob": admission[6]
     })
 
-
 @app.route('/register')
 def register():
     return render_template('register.html')
 
+@app.route('/adref')
+def adref(studid):
+    adref = readadrefdata(studid)
+    return render_template('adrefscreen.html', adref=adref)
 
-@app.route('/admissionreference')
-def adref():
-    return render_template('adrefscreen.html')
+subjects = ["LIS51", "LIS55", "LIS161"]
 
-
-@app.route('/adstaffscreen', methods=['GET', 'POST'])
-def adstaff():
-    # Get the search and filter criteria from the form
-    searchdbpending = request.form.get('searchdbpending', '')
-    filterbycourse = request.form.get('filterbycourse', '')
-    conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
-    # Build the SQL query based on the search and filter criteria
-    query = "SELECT * FROM registrations WHERE subject=?"
-    params = ('%' + searchdbpending + '%',)
-    if filterbycourse:
-        query += " AND another_column = ?"
-        params += (filterbycourse,)
-    # Execute the query and fetch the results
-    cursor.execute(query, params)
-    results = cursor.fetchall()
-    # Close the database connection
-    cursor.close()
-    conn.close()
-    # Pass the results to the HTML template
-    return render_template('adstaffscreen.html', results=results)
-
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        name = request.form['name']
+        subject = request.form['subject']
+        results = search_by_name_and_subject(name, subject)
+        return render_template('resultsadstaff.html', results=results)
+    return render_template('searchadstaff.html', subjects=subjects)
 
 @app.route('/masterlist', methods=['GET', 'POST'])
 def master():
-    # Get the search and filter criteria from the form
-    mstrsearchdbpending = request.form.get('mstrsearchdbpending', '')
-    mstrfilterbycourse = request.form.get('mstrfilterbycourse', '')
-    conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
-    # Build the SQL query based on the search and filter criteria
-    query = "SELECT * FROM registrations WHERE subject=?"
-    params = ('%' + mstrsearchdbpending + '%',)
-    if mstrfilterbycourse:
-        query += " AND another_column = ?"
-        params += (mstrfilterbycourse,)
-    # Execute the query and fetch the results
-    cursor.execute(query, params)
-    results = cursor.fetchall()
-    # Close the database connection
-    cursor.close()
-    conn.close()
-    # Pass the results to the HTML template
-    return render_template('masterlist.html', results=results)
-
+    if request.method == 'POST':
+        name = request.form['name']
+        subject = request.form['subject']
+        results = mastersearch_by_name_and_subject(name, subject)
+        return render_template('resultsadref.html', results=results)
+    return render_template('searchadref.html', subjects=subjects)
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
