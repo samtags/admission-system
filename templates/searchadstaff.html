@@ -14,7 +14,8 @@
 
   <div id="content" class="p-7 gap-y-8 flex flex-col"></div>
 </body>
-
+<script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js"></script>
 <script>
   function handleUpdateStatus(id, status) {
     axios
@@ -22,7 +23,14 @@
         status,
       })
       .then((data) => {
-        console.log(data);
+        swal({
+          title: "Success",
+          text: "Student status updated!",
+          type: "success",
+          showCancelButton: false,
+          confirmButtonColor: "rgb(99, 102, 241)",
+          confirmButtonText: "Close",
+        });
       })
       .catch((err) => console.log(err));
   }
@@ -35,33 +43,47 @@
     handleUpdateStatus(id, "rejected");
   }
 
-  const admissions = JSON.parse('{{ admissions|tojson|safe }}');
-  const content = document.getElementById("content");
+  const admissions = JSON.parse(`{{ admissions|tojson|safe }}`);
 
-  let listContent = "";
+  function renderContent(data) {
+    const content = document.getElementById("content");
+    let listContent = "";
+    data.reverse().forEach((admission) => {
+      listContent += `
+          <div class="bg-gray-50 px-12 py-8 rounded-2xl">
+              <div class="grid grid-cols-2 gap-4">
+                  <div class="col-span-1">
+                      <div>Name: ${admission.name}</div>
+                      <div>Subject: ${admission.subject}</div>
+                  </div>
+                  <div class="col-span-1">
+                      <div>Contact Number: ${admission.phone}</div>
+                      <div>Email: ${admission.email}</div>
+                      <div>Date of birth: ${admission.dob}</div>
+                  </div>
+              </div>
+              <div class="flex gap-2 mt-4">
+                  <button onclick="handleAccept(${admission.id})" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-1 rounded-lg">Accept</button>
+                  <button onclick="handleReject(${admission.id})" class="bg-red-400 hover:bg-red-500 text-white px-4 py-1 rounded-lg">Reject</button>
+              </div>
+          </div>
+      `;
+    });
+    content.innerHTML = listContent;
 
-  admissions.forEach((admission) => {
-    listContent += `
-        <div class="bg-gray-50 px-12 py-8 rounded-2xl">
-            <div class="grid grid-cols-2 gap-4">
-                <div class="col-span-1">
-                    <div>Name: ${admission.name}</div>
-                    <div>Subject: ${admission.subject}</div>
-                </div>
-                <div class="col-span-1">
-                    <div>Contact Number: ${admission.phone}</div>
-                    <div>Email: ${admission.email}</div>
-                    <div>Date of birth: ${admission.dob}</div>
-                </div>
-            </div>
-            <div class="flex gap-2 mt-4">
-                <button onclick="handleAccept(${admission.id})" class="bg-green-500 text-white px-4 py-1 rounded-lg">Accept</button>
-                <button onclick="handleReject(${admission.id})" class="bg-red-500 text-white px-4 py-1 rounded-lg">Reject</button>
-            </div>
-        </div>
-    `;
-  });
+    console.log("rendered");
+  }
 
-  content.innerHTML = listContent;
+  renderContent(admissions || []);
 </script>
+
+<script>
+  const socket = io.connect();
+
+  socket.on("registrations", function (payload) {
+    payload = JSON.parse(JSON.stringify(payload));
+    renderContent(payload.data);
+  });
+</script>
+
 {% endblock %}

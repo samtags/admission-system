@@ -1,13 +1,22 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for, json
 import os
 from data import *
-
+from flask_socketio import SocketIO
 
 app = Flask(__name__)
+socketio = SocketIO(app)
+
+
+def broadcast_pending_admissions():
+    pending_admissions = get_admissions_by_status("pending")
+    rows_dict = [dict(row) for row in pending_admissions]
+
+    socketio.emit('registrations', {'data': rows_dict})
 
 
 @app.route('/')
 def home():
+    broadcast_pending_admissions()
     return render_template('index.html')
 
 
@@ -71,6 +80,7 @@ def master():
 def update(id):
     data = request.get_json()
     update_admission_status(id, data['status'])
+    broadcast_pending_admissions()
     updated = get_admission(id)
     return jsonify(dict(updated))
 
@@ -94,6 +104,7 @@ def accounting():
 @app.route('/payment-received/<int:id>', methods=['POST'])
 def payment_received(id):
     update_admission_status(id, 'enrolled')
+    broadcast_pending_admissions()
     return redirect(url_for("accounting", success=True))
 
 
