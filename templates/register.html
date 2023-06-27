@@ -2,33 +2,50 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Student Registration Form </title>
-    </head>
-    <body>
-        {% block content %}
-        <h2>Student Registration Form </h2>
-        <form action="{{ url_for('register') }}" method="post">
-            <label for="name"> Name:</label>
-            <input type="text" name="name" id="name" required><br><br>
-            <label for="subject">Subject:</label>
-            <select name="subject" id="subject" required>
-                <option disabled selected value>...</option>
-                <option value="LIS161">LIS 161</option>
-                <option value="LIS51">LIS 60</option>
-                <option value="LIS55">LIS 55</option>
-            </select><br><br>
-            <label for="course"> Course:</label>
-            <input type="course" name="course" id="course" required><br><br>
-            <label for="email"> Email:</label>
-            <input type="email" name="email" id="email" required><br><br>
-            <label for="phone">Phone:</label>
-            <input type="tel" name="phone" id="phone"><br><br>
-            <label for="dob">Date of Birth:</label>
-            <input type="date" name="dob" id="dob"><br><br>
-
-            <input type="submit" value="Register!">
-        </form>
-        {% endblock %}
-</body>
+  <head>
+    <title>Student Registration Form</title>
+  </head>
+  <body>
+    {% block content %}
+    <h2>Student Registration Form</h2>
+    <form action="{{ url_for('register') }}" method="post">
+      <label for="name"> Name:</label>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        required
+        value="Test-1"
+      /><br /><br />
+      <label for="subject">Subject:</label>
+      <select name="subject" id="subject" required value="LIS161">
+        <option disabled selected>...</option>
+        <option selected value="LIS161">LIS 161</option>
+        <option value="LIS51">LIS 60</option>
+        <option value="LIS55">LIS 55</option></select
+      ><br /><br />
+      <label for="course"> Course:</label>
+      <input
+        type="course"
+        name="course"
+        id="course"
+        required
+        value="123"
+      /><br /><br />
+      <label for="email"> Email:</label>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        required
+        value="test@gmail.com"
+      /><br /><br />
+      <label for="phone">Contact Number:</label>
+      <input name="phone" id="phone" value="123" /><br /><br />
+      <label for="dob">Date of Birth:</label>
+      <input type="date" name="dob" id="dob" value="2018-07-22" /><br /><br />
+      <input type="submit" value="Register" />
+    </form>
+    {% endblock %}
+  </body>
 </html>
