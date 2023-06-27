@@ -75,6 +75,28 @@ def update(id):
     return jsonify(dict(updated))
 
 
+@app.route('/accounting', methods=['GET', 'POST'])
+def accounting():
+    data = {}
+    not_found = False
+
+    if request.method == 'POST':
+        reference = request.form['reference']
+        data = get_admission(reference)
+
+    if (data is None):
+        data = {}
+        not_found = True
+
+    return render_template('accounting.html', data=data, not_found=not_found)
+
+
+@app.route('/payment-received/<int:id>', methods=['POST'])
+def payment_received(id):
+    update_admission_status(id, 'enrolled')
+    return redirect(url_for("accounting", success=True))
+
+
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, host='0.0.0.0', port=port)
