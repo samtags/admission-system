@@ -34,6 +34,15 @@ def register_student(payload):
     return row
 
 
+def get_admission(id):
+    conn, cur = connect_db(db_path)
+    query = 'SELECT * FROM registrations WHERE id=?'
+    values = (id,)
+    row = cur.execute(query, values).fetchone()
+    conn.close()
+    return row
+
+
 def get_admissions():
     conn, cur = connect_db(db_path)
     cur.execute('SELECT name, subject, status FROM registrations')

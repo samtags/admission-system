@@ -24,8 +24,8 @@ def register():
 
 @app.route('/admission-reference/<int:id>')
 def admission_reference(id):
-    print("Row ID:", id)
-    return render_template('adrefscreen.html', admissions={})
+    data = get_admission(id)
+    return render_template('adrefscreen.html', admissions=data)
 
 
 @app.route('/adrefscreen')
