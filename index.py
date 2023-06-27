@@ -54,12 +54,17 @@ def search():
 
 @app.route('/masterlist', methods=['GET', 'POST'])
 def master():
+    enrolled = get_admissions_by_status("enrolled")
+
     if request.method == 'POST':
         name = request.form['name']
         subject = request.form['subject']
         results = mastersearch_by_name_and_subject(name, subject)
         return render_template('resultsadref.html', results=results)
-    return render_template('searchadref.html', subjects=subjects)
+
+    rows_dict = [dict(row) for row in enrolled]
+
+    return render_template('masterlist.html', subjects=subjects, enrolled=rows_dict)
 
 
 if __name__ == "__main__":

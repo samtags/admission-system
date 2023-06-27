@@ -1,32 +1,43 @@
-{% extends "base.html" %}
-
-<!DOCTYPE html>
-<html>
-<head>
-<title>Admission</title>
-</head>
+{% extends 'base.html' %} {% block content %}
 <body>
-    {% block content %}
-    <h1>Masterlist</h1>
-    <div class="searchmasterlist">
-        <form method="POST" action="/">
-            <input type="text" name="search" placeholder="Search Name">
-            <select name="filter">
-                <option value="">All</option>
-                <option value="LIS51">LIS51</option>
-                <option value="LIS55">LIS55</option>
-                <option value="LIS161">LIS161</option>
-            </select>
-            <button type="submit">Search</button>
-        </form>
-    </div>
-    <div class="studentfulllist">
-        <ul>
-            <li><h3>{{ name }}</h3><p>{{ subject }}</p><p>{{ status }}</p></li>
-        </ul>
-    </div>
-  
+  <form action="/search" method="POST">
+    <input type="text" name="name" placeholder="Enter a name" />
 
-    {% endblock %}
+    <select name="subject">
+      {% for subject in subjects %}
+      <option value="{{ subject }}">{{ subject }}</option>
+      {% endfor %}
+    </select>
+
+    <button type="submit">Search</button>
+  </form>
+  <div id="content" class="p-7 gap-y-8 flex flex-col"></div>
 </body>
-</html>
+
+<script>
+  const admissions = JSON.parse('{{ enrolled|tojson|safe }}');
+  const content = document.getElementById("content");
+
+  let listContent = "";
+
+  admissions.forEach((admission) => {
+    listContent += `
+        <div class="bg-gray-50 px-12 py-8 rounded-2xl">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="col-span-1">
+                    <div>Name: ${admission.name}</div>
+                    <div>Subject: ${admission.subject}</div>
+                </div>
+                <div class="col-span-1">
+                    <div>Contact Number: ${admission.phone}</div>
+                    <div>Email: ${admission.email}</div>
+                    <div>Date of birth: ${admission.dob}</div>
+                </div>
+            </div>
+        </div>
+    `;
+  });
+
+  content.innerHTML = listContent;
+</script>
+{% endblock %}
