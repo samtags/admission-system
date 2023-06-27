@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, json
 import os
 from data import *
 
@@ -39,22 +39,40 @@ subjects = ["LIS51", "LIS55", "LIS161"]
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
+    pending_admissions = get_admissions_by_status("pending")
+
     if request.method == 'POST':
         name = request.form['name']
         subject = request.form['subject']
         results = search_by_name_and_subject(name, subject)
         return render_template('resultsadstaff.html', results=results)
-    return render_template('searchadstaff.html', subjects=subjects)
+
+    rows_dict = [dict(row) for row in pending_admissions]
+
+    return render_template('searchadstaff.html', subjects=subjects, admissions=rows_dict)
 
 
 @app.route('/masterlist', methods=['GET', 'POST'])
 def master():
+    enrolled = get_admissions_by_status("enrolled")
+
     if request.method == 'POST':
         name = request.form['name']
         subject = request.form['subject']
         results = mastersearch_by_name_and_subject(name, subject)
         return render_template('resultsadref.html', results=results)
-    return render_template('searchadref.html', subjects=subjects)
+
+    rows_dict = [dict(row) for row in enrolled]
+
+    return render_template('masterlist.html', subjects=subjects, enrolled=rows_dict)
+
+
+@app.route('/admission/update/<int:id>', methods=['PATCH'])
+def update(id):
+    data = request.get_json()
+    update_admission_status(id, data['status'])
+    updated = get_admission(id)
+    return jsonify(dict(updated))
 
 
 if __name__ == "__main__":

@@ -43,6 +43,25 @@ def get_admission(id):
     return row
 
 
+def get_admissions_by_status(status):
+    conn, cur = connect_db(db_path)
+    query = 'SELECT * FROM registrations WHERE status=?'
+    values = (status,)
+    row = cur.execute(query, values).fetchall()
+    conn.close()
+    return row
+
+
+def update_admission_status(id, status):
+    conn, cur = connect_db(db_path)
+    query = 'UPDATE registrations SET status=? WHERE id=?'
+    values = (status, id)
+    cur.execute(query, values)
+    conn.commit()
+    conn.close()
+    return True
+
+
 def get_admissions():
     conn, cur = connect_db(db_path)
     cur.execute('SELECT name, subject, status FROM registrations')
