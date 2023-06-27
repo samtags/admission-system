@@ -43,6 +43,24 @@ def get_admission(id):
     return row
 
 
+def remove_admission(id):
+    conn, cur = connect_db(db_path)
+    query = 'DELETE FROM registrations WHERE id=?'
+    values = (id,)
+    cur.execute(query, values)
+    conn.commit()
+    conn.close()
+    return True
+
+
+def get_all_admissions():
+    conn, cur = connect_db(db_path)
+    query = 'SELECT * FROM registrations'
+    row = cur.execute(query).fetchall()
+    conn.close()
+    return row
+
+
 def get_admissions_by_status(status):
     conn, cur = connect_db(db_path)
     query = 'SELECT * FROM registrations WHERE status=?'

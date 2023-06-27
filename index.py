@@ -7,16 +7,23 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 
 
-def broadcast(table: str, id=None):
+def broadcast(table: str, id=None, **kwargs):
+    if (id):
+        updated = get_admission(id)
+        if (updated):
+            socketio.emit(f"registrations/{id}", {'data': dict(updated)})
+        return
+
+    if (kwargs.get("all")):
+        admissions = get_all_admissions()
+        rows_dict = [dict(row) for row in admissions]
+        socketio.emit('registrations', {'data': rows_dict})
+        return
+
     if (table == "registrations"):
         pending_admissions = get_admissions_by_status("pending")
         rows_dict = [dict(row) for row in pending_admissions]
-
         socketio.emit('registrations', {'data': rows_dict})
-
-        if (id):
-            updated = get_admission(id)
-            socketio.emit(f"registrations/{id}", {'data': dict(updated)})
 
 
 @app.route('/')
@@ -68,7 +75,7 @@ def search():
 
 @app.route('/masterlist', methods=['GET', 'POST'])
 def master():
-    enrolled = get_admissions_by_status("enrolled")
+    admissions = get_all_admissions()
 
     if request.method == 'POST':
         name = request.form['name']
@@ -76,18 +83,26 @@ def master():
         results = mastersearch_by_name_and_subject(name, subject)
         return render_template('resultsadref.html', results=results)
 
-    rows_dict = [dict(row) for row in enrolled]
+    rows_dict = [dict(row) for row in admissions]
 
-    return render_template('masterlist.html', subjects=subjects, enrolled=rows_dict)
+    return render_template('masterlist.html', subjects=subjects, admissions=rows_dict)
 
 
-@app.route('/admission/update/<int:id>', methods=['PATCH'])
-def update(id):
-    data = request.get_json()
-    update_admission_status(id, data['status'])
-    broadcast("registrations", id)
-    updated = get_admission(id)
-    return jsonify(dict(updated))
+@app.route('/registrations/<int:id>', methods=['PATCH', "DELETE"])
+def registrations(id):
+    if (request.method == "PATCH"):
+        data = request.get_json()
+        update_admission_status(id, data['status'])
+        broadcast("registrations", id)
+        updated = get_admission(id)
+        return jsonify(dict(updated))
+
+    if (request.method == "DELETE"):
+        remove_admission(id)
+        broadcast("registrations", all=True)
+        return jsonify({"message": "success"})
+
+    return "Not found."
 
 
 @app.route('/accounting', methods=['GET', 'POST'])
