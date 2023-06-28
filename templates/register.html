@@ -7,45 +7,47 @@
   </head>
   <body>
     {% block content %}
-    <h2>Student Registration Form</h2>
-    <form action="{{ url_for('register') }}" method="post">
-      <label for="name"> Name:</label>
-      <input
-        type="text"
-        name="name"
-        id="name"
-        required
-        value="Test-1"
-      /><br /><br />
-      <label for="subject">Subject:</label>
-      <select name="subject" id="subject" required value="LIS161">
-        <option disabled selected>...</option>
-        <option selected value="LIS161">LIS 161</option>
-        <option value="LIS51">LIS 60</option>
-        <option value="LIS55">LIS 55</option></select
-      ><br /><br />
-      <label for="course"> Course:</label>
-      <input
-        type="course"
-        name="course"
-        id="course"
-        required
-        value="123"
-      /><br /><br />
-      <label for="email"> Email:</label>
-      <input
-        type="email"
-        name="email"
-        id="email"
-        required
-        value="test@gmail.com"
-      /><br /><br />
-      <label for="phone">Contact Number:</label>
-      <input name="phone" id="phone" value="123" /><br /><br />
-      <label for="dob">Date of Birth:</label>
-      <input type="date" name="dob" id="dob" value="2018-07-22" /><br /><br />
-      <input type="submit" value="Register" />
-    </form>
+    <h1 class="text-3xl font-bold text-gray-700 p-7">Student Registration Form</h1>
+    <div class="p-7">
+      <form class="w-full max-w-sm" action="{{ url_for('register') }}" method="post">
+        <label class="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" for="name"> Name:</label>
+        <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+          type="text"
+          name="name"
+          id="name"
+          required
+          value=""
+        /><br /><br />
+        <label class="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" for="subject">Subject:</label>
+        <select class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" name="subject" id="subject" required value="LIS161">
+          <option selected value>...</option>
+          <option value="LIS161">LIS 161</option>
+          <option value="LIS51">LIS 60</option>
+          <option value="LIS55">LIS 55</option></select
+        ><br /><br />
+        <label class="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" for="course"> Course:</label>
+        <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+          type="course"
+          name="course"
+          id="course"
+          required
+          value=""
+        /><br /><br />
+        <label class="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" for="email"> Email:</label>
+        <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+          type="email"
+          name="email"
+          id="email"
+          required
+          value=""
+        /><br /><br />
+        <label class="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" for="phone">Contact Number:</label>
+        <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" name="phone" id="phone" value="" /><br /><br />
+        <label class="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" for="dob">Date of Birth:</label>
+        <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="date" name="dob" id="dob" value="" /><br /><br />
+        <input class="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit" value="Register" />
+      </form>
+    </div>
     {% endblock %}
   </body>
 </html>
