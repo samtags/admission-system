@@ -19,9 +19,12 @@
       }
     </style>
   </head>
-  {% block content %}
   <body>
     {% include 'nav.html' %}
+    <div class="m-4">
+      {% block content %}
+    
+      {% endblock %}
+    </div>
   </body>
-  {% endblock %}
 </html>
