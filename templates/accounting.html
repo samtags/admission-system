@@ -1,7 +1,9 @@
 {% extends "base.html" %} {% block content %}
 <body>
+  {% include 'staffnav.html' %}
+
   <h1 class="text-3xl font-bold text-gray-700 p-7">Accounting</h1>
-  <div class="p-7">
+  <div class="p-7 text-gray-700">
     <form action="{{ url_for('accounting') }}" method="post">
       <input
         name="reference"
@@ -10,37 +12,40 @@
       />
       <button
         type="submit"
-        class="mt-4 bg-indigo-500 px-4 py-2 rounded-lg text-white"
+        class="mt-4 bg-blue-500 px-4 py-2 rounded-lg text-white"
       >
-        Submit
+        Search
       </button>
     </form>
     <div class="max-w-sm p-6 rounded-lg"></div>
-    <div class="max-w-sm p-7 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-200 dark:border-gray-700">
-      {% if data %}
-      <div>{{data.name}}</div>
-      <div>{{data.subject}}</div>
-      <div>{{data.email}}</div>
-      <div>{{data.phone}}</div>
-      <div>{{data.dob}}</div>
-      <div>{{data.status}}</div>
-    
+    {% if data %}
+    <div
+      class="max-w-sm p-7 bg-gray-50 border rounded-lg border-gray-100 border-1"
+    >
+      <div class="flex gap-2">
+        <strong>Student Name: </strong>
+        <span class="capitalize">{{data.first_name}} {{data.last_name}}</span>
+      </div>
+      <div class="flex gap-2">
+        <strong>Subject: </strong>
+        <span>{{data.course}}</span>
+      </div>
+      <div class="flex gap-2">
+        <strong>Status: </strong>
+        <span class="capitalize">{{data.status}}</span>
+      </div>
+
       {% if data.status != "enrolled" %}
       <form action="/payment-received/{{data.id}}" method="post">
-        <button
-          type="submit"
-          class="mt-4 bg-indigo-500 px-4 py-2 rounded-lg text-white"
-        >
-          Payment Received
+        <button type="submit" class="mt-4 text-blue-500 underline text-sm">
+          Payment Received Enroll Student
         </button>
       </form>
-      {% endif %} {% endif %}
+      {% endif %} {% endif %} {% if not_found %}
+      <div>No record found.</div>
+      {% endif %}
     </div>
     <!--  -->
-
-    {% if not_found %}
-    <div>No record found.</div>
-    {% endif %}
   </div>
 </body>
 <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>

@@ -1,22 +1,32 @@
-{% extends 'base.html' %} 
-{% block content %}
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body>
-      <h1 class="text-3xl font-bold text-gray-700 p-7">Admission System</h1>
-      <h2 class="text-xl font-bold text-gray-700 p-7"> Admission Process:</h2>
-      <div class="text-m text-gray-700 p-7">
-        <ol>1. Click on Register above to start your admission process.</ol>
-        <ol>2. Fill up the form and submit.</ol>
-        <ol>3. Wait for your admission to be processed.</ol>
-        <ol>4. Once accepted, pay the necessary fee at the accounting office and wait for the payment confirmation.</ol>
-        <ol>5. You have succesfully enrolled once the payment is confirmed.</ol>
-      </div>
-  </body>
-</html>
+{% extends 'base.html' %} {% block content %}
+
+<body>
+  {% include 'nav.html' %}
+
+  <h2 class="text-xl font-bold text-gray-700 p-7">Admission Process</h2>
+  <div class="text-m text-gray-700 px-7">
+    <ol>
+      1. Click on Register above to start your admission process.
+    </ol>
+    <ol>
+      2. Fill up the form and submit.
+    </ol>
+    <ol>
+      3. Wait for your admission to be processed.
+    </ol>
+    <ol>
+      4. Once accepted, pay the necessary fee at the accounting office and wait
+      for the payment confirmation.
+    </ol>
+    <ol>
+      5. You have succesfully enrolled once the payment is confirmed.
+    </ol>
+    <a
+      class="mt-7 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      href="/register"
+      >Register Now!</a
+    >
+  </div>
+</body>
+
 {% endblock %}
