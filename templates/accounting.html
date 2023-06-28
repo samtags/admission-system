@@ -14,26 +14,27 @@
         Submit
       </button>
     </form>
-
-    {% if data %}
-    <div>{{data.name}}</div>
-    <div>{{data.subject}}</div>
-    <div>{{data.email}}</div>
-    <div>{{data.phone}}</div>
-    <div>{{data.dob}}</div>
-    <div>{{data.status}}</div>
-
-    {% if data.status != "enrolled" %}
-    <form action="/payment-received/{{data.id}}" method="post">
-      <button
-        type="submit"
-        class="mt-4 bg-indigo-500 px-4 py-2 rounded-lg text-white"
-      >
-        Payment Received
-      </button>
-    </form>
-    {% endif %} {% endif %}
-
+    <div class="max-w-sm p-6 rounded-lg"></div>
+    <div class="max-w-sm p-7 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-200 dark:border-gray-700">
+      {% if data %}
+      <div>{{data.name}}</div>
+      <div>{{data.subject}}</div>
+      <div>{{data.email}}</div>
+      <div>{{data.phone}}</div>
+      <div>{{data.dob}}</div>
+      <div>{{data.status}}</div>
+    
+      {% if data.status != "enrolled" %}
+      <form action="/payment-received/{{data.id}}" method="post">
+        <button
+          type="submit"
+          class="mt-4 bg-indigo-500 px-4 py-2 rounded-lg text-white"
+        >
+          Payment Received
+        </button>
+      </form>
+      {% endif %} {% endif %}
+    </div>
     <!--  -->
 
     {% if not_found %}
