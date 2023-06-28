@@ -126,6 +126,9 @@ def payment_received(id):
     broadcast("registrations", id)
     return redirect(url_for("accounting", success=True))
 
+@app.route('/staff')
+def staffdirectory():
+    return render_template('staff.html')
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
