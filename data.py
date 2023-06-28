@@ -1,5 +1,5 @@
 import sqlite3
-from index import socketio
+from utils import generate_random_hash
 
 db_path = 'records.db'
 
@@ -15,13 +15,25 @@ def connect_db(path):
 
 def register_student(payload):
     conn, cur = connect_db(db_path)
-    query = 'INSERT INTO registrations (name, subject, email, phone, dob, status) VALUES (?,?,?,?,?,?)'
-    values = (payload['name'],
-              payload['subject'],
+    # query = 'INSERT INTO registrations (name, subject, email, phone, dob, status) VALUES (?,?,?,?,?,?)'
+    query = 'INSERT INTO registrations (first_name, middle_name, last_name, dob, sex, address, email, phone, status, reference, emergency_contact_name, emergency_contact_number, emergency_contact_relation) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)'
+
+    default_status = "pending"
+    reference = generate_random_hash(5)
+
+    values = (payload['first_name'],
+              payload['middle_name'],
+              payload['last_name'],
+              payload['dob'],
+              payload['sex'],
+              payload['address'],
               payload['email'],
               payload['phone'],
-              payload['dob'],
-              "pending"
+              default_status,
+              reference,
+              payload['emergency_contact_name'],
+              payload['emergency_contact_number'],
+              payload['emergency_contact_relation']
               )
     cur.execute(query, values)
 

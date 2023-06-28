@@ -12,7 +12,6 @@ def broadcast(table: str, id=None, **kwargs):
         updated = get_admission(id)
         if (updated):
             socketio.emit(f"registrations/{id}", {'data': dict(updated)})
-        return
 
     if (kwargs.get("all")):
         admissions = get_all_admissions()
