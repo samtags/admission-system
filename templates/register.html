@@ -70,36 +70,44 @@
         <div class="flex flex-col gap-4">
           <header class="font-bold mt-12">Contact Information</header>
           <textarea
+            required
             rows="5"
             class="bg-gray-100 p-2 px-4 text-sm rounded-lg"
             name="address"
             placeholder="Address"
           ></textarea>
           <input
+            required
             class="bg-gray-100 p-2 px-4 text-sm rounded-lg"
             placeholder="Contact Number"
             name="phone"
+            type="number"
           />
           <input
+            required
             class="bg-gray-100 p-2 px-4 text-sm rounded-lg"
             placeholder="Email Address"
             name="email"
+            type="email"
           />
         </div>
 
         <div class="flex flex-col gap-4">
           <header class="font-bold mt-12">Emergency Contact Information</header>
           <input
+            required
             class="bg-gray-100 p-2 px-4 text-sm rounded-lg"
             placeholder="Contact Person"
             name="emergency_contact_name"
           />
           <input
+            required
             class="bg-gray-100 p-2 px-4 text-sm rounded-lg"
             placeholder="Contact Number"
             name="emergency_contact_number"
           />
           <input
+            required
             class="bg-gray-100 p-2 px-4 text-sm rounded-lg"
             placeholder="Relationship"
             name="emergency_contact_relation"
@@ -113,7 +121,7 @@
 
         <div class="w-full">
           <div class="flex gap-2 items-center justify-center mb-4">
-            <input type="checkbox" />
+            <input type="checkbox" required />
             <div class="text-xs text-gray-400">
               Agree to the <a href="#">Terms and Conditions</a>
             </div>

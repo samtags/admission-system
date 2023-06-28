@@ -2,7 +2,7 @@
 <body>
   {% include 'staffnav.html' %}
 
-  <h1 class="text-3xl font-bold text-gray-700 p-7">Accounting</h1>
+  <h1 class="text-3xl font-bold text-gray-700 px-7 pt-7">Accounting</h1>
   <div class="p-7 text-gray-700">
     <form action="{{ url_for('accounting') }}" method="post">
       <input
@@ -12,7 +12,7 @@
       />
       <button
         type="submit"
-        class="mt-4 bg-blue-500 px-4 py-2 rounded-lg text-white"
+        class="mt-4 items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         Search
       </button>
