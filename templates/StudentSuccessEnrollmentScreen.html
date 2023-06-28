@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %} {% block content %}
 <head>
 <title>Student's Success Enrollment </title>
 </head>
 <body>
-<h1>Student's Admission</h1>
-<h2>Status: Completed</h2>
-<p>You have now successfully enrolled for the {{ course }} batch {{ batch }}. Verify to your enrollment to the administration window. Kindly present your admission reference.</p>
-<h2>‌Admission reference: 23-1231659176514.</h2>
-<p>{{ name }}</p>
-<p>{{ course }}</p>
-
+    <h1 class="text-3xl font-bold text-gray-700 p-7">Student's Admission</h1>
+        <h2 class="text-xl font-bold text-gray-700 p-7">Status: Completed</h2>
+            <p class="text-m text-gray-700 p-7">You have now successfully enrolled for the {{ course }} batch {{ batch }}. Verify to your enrollment to the administration window. Kindly present your admission reference.</p>
+    <h2 class="text-xl font-bold text-gray-700 p-7">‌Admission reference: 23-1231659176514.</h2>
+        <p class="text-m text-gray-700 p-7">{{ name }}</p>
+        <p class="text-m text-gray-700 p-7">{{ course }}</p>
 </body>
-</html>
+{% endblock %}

@@ -1,14 +1,15 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %} {% block content %}
 <head>
     <title>Search Results</title>
 </head>
 <body>
-    <h1>Search Results</h1>
-    <ul>
-        {% for result in results %}
-        <li>{{ result }}</li>
-        {% endfor %}
-    </ul>
+    <div class="p-7">
+        <h1 class="text-3xl font-bold text-gray-700 p-7">Search Results</h1>
+        <ul class="text-m text-gray-700 p-7">
+            {% for result in results %}
+            <li class="text-m text-gray-700 p-7">{{ result }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
-</html>
+{% endblock %}
